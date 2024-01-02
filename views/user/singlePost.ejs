@@ -1,0 +1,180 @@
+<%- include("user_header") %>
+
+
+    <section class="page-heading wow fadeIn" data-wow-duration="1.5s"
+        style="background-image: url(/files/images/01-heading.jpg)">
+        <div class="container">
+            <div class="page-name">
+                <h1>Single Post</h1>
+                <span>Lovely layout of heading</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="blog-single">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="blog-single-item">
+                        <img src="<%= singlePost.postImg %>" alt="">
+                        <div class="blog-single-content">
+                            <h3><a href="#">
+                                    <%= singlePost.title %>
+                                </a></h3>
+                            <span><a href="#">
+                                    <%= singlePost.username %>
+                                </a> / <a href="#">
+                                    <%= singlePost.createdDate %>
+                                </a> / <a href="#">
+                                    <%= singlePost.category %>
+                                </a></span>
+                            <p>
+                                <%= singlePost.description %>
+                            </p>
+                            <div class="share-post">
+                                <span>Share on: <a href="#">facebook</a>, <a href="#">twitter</a>, <a
+                                        href="#">linkedin</a>, <a href="#">instagram</a></span>
+                            </div>
+                        </div>
+
+                        <% var prev=cp; %>
+
+                            <% if(postIds[--prev]){ %>
+                                <div class="prev-btn col-md-6 col-sm-6 col-xs-6">
+                                    <a href="/singlePost/?id=<%= postIds[prev] %>"><i
+                                            class="fa fa-angle-left"></i>Previous</a>
+                                </div>
+                                <% } %>
+
+                                    <% var next=cp; %>
+
+                                        <% if(postIds[++next]){ %>
+                                            <div class="next-btn col-md-6 col-sm-6 col-xs-6">
+                                                <a href="/singlePost/?id=<%= postIds[next] %>">Next<i
+                                                        class="fa fa-angle-right"></i></a>
+                                            </div>
+                                            <% } %>
+
+                    </div>
+                    <div class="blog-comments">
+                        <h2>
+                            <%= commentData.length %> Comments
+                        </h2>
+                        <ul class="coments-content">
+
+                            <% var bool=true; for(var cd of commentData){ if(bool){%>
+
+                                <li class="first-comment-item">
+                                    <img src="<%= cd.commentImg%>" alt="">
+                                    <span class="author-title"><a href="#">
+                                            <%= cd.name %>
+                                        </a></span>
+                                    <span class="comment-date">
+                                        <%= cd.createdDate %> / <a href="#">Reply</a>
+                                    </span>
+                                    <p>
+                                        <%= cd.message %>
+                                    </p>
+                                </li>
+                                <% bool=false;} else{%>
+                                    <li class="second-comment-item">
+                                        <img src="<%= cd.commentImg%>" alt="">
+                                        <span class="author-title"><a href="#">
+                                                <%= cd.name %>
+                                            </a></span>
+                                        <span class="comment-date">
+                                            <%= cd.createdDate %> / <a href="#">Reply</a>
+                                        </span>
+                                        <p>
+                                            <%= cd.message %>
+                                        </p>
+                                    </li>
+                                    <% bool=true;}}%>
+
+                        </ul>
+                    </div>
+                    <div class="submit-comment col-sm-12">
+                        <h2>Leave A Comment</h2>
+                        <form id="contact_form" action="/addComment" method="POST" enctype="multipart/form-data">
+
+                            <input type="hidden" name="postId" value="<%= singlePost.id %>">
+
+                            <div class=" col-md-4 col-sm-4 col-xs-6">
+                                <input type="text" class="blog-search-field" name="name" placeholder="Your name...">
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-6">
+                                <input type="text" class="blog-search-field" name="email" placeholder="Your email...">
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="file" class="subject" name="commentImg" placeholder="Subject...">
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <textarea id="message" class="input" name="message" placeholder="Comment..."></textarea>
+                            </div>
+                            <div class="submit-coment col-md-12">
+                                <div class="btn-black">
+                                    <button type="submit">Submit now</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="widget-item">
+                        <h2>Search here</h2>
+                        <div class="dec-line"></div>
+                        <form id="blog-search" class="blog-search">
+                            <input type="text" class="blog-search-field" name="search" placeholder="Type keyword...">
+                                <button>Search</button>
+                        </form>
+                    </div>
+                    <div class="widget-item">
+                        <h2>About Us</h2>
+                        <div class="dec-line">
+                        </div>
+                        <p><%= singlePost.description.slice(0,300) %></p>
+                        <div class="social-icons">
+                            <ul>
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                                <li><a href="#"><i class="fa fa-rss"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="widget-item">
+                        <h2>Recent Posts</h2>
+                        <div class="dec-line"></div>
+                        <ul class="recent-item">
+
+                            <% for(var rpd of recentPostData){ %>
+
+                                <li class="recent-post-item">
+                                    <a href="/singlePost/?id=<%= rpd.id %>">
+                                        <img src="<%= rpd.postImg %>" alt="">
+                                        <span class="post-title">
+                                            <%= rpd.title %>
+                                        </span>
+                                    </a>
+                                    <span class="post-info">
+                                        <%= rpd.createdDate %>
+                                    </span>
+                                </li>
+
+                                <% } %>
+                        </ul>
+                    </div>
+                    <div class="widget-item">
+                        <h2>From Flickr</h2>
+                        <div class="dec-line"></div>
+                        <div class="flickr-feed">
+                            <ul class="flickr-images">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <%- include("user_footer") %>
